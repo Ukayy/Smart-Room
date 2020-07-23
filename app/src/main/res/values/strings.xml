@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Smart Room</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_chart">Chart</string>
+    <string name="title_power">Power</string>
+    <string name="title_account">Account</string>
+    <string name="control">Control</string>
+    <string name="dumy_date">2020-01-01</string>
+    <string name="dumy_clock">18:00 AM</string>
+    <string name="temperature">Temperature</string>
+    <string name="dumy_tmp">20</string>
+    <string name="c">C</string>
+    <string name="humidity">Humidity</string>
+    <string name="dumy_hum">60</string>
+    <string name="ac">AC</string>
+    <string name="lamp">Lamp</string>
+    <string name="lamp_1">Lamp 1</string>
+    <string name="lamp_2">Lamp 2</string>
+    <string name="lamp_3">Lamp 3</string>
+    <string name="lamp_4">Lamp 4</string>
+    <string name="door">Door</string>
+    <string name="open">Open</string>
+    <string name="des">TODO</string>
+    <string name="on">ON</string>
+    <string name="name">Name</string>
+    <string name="number_id_card">Number ID Card</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="submit">Submit</string>
+    <string name="edit_user">Edit User</string>
+    <string name="dumy_number">1</string>
+    <string name="dumy_name">Ahmad Marzuky</string>
+    <string name="dumy_id">3A458909</string>
+</resources>
