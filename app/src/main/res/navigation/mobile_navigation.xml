@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="skripsi.uki.smartroom.ui.account.user.UserFragment"
+        android:name="skripsi.uki.smartroom.ui.account.admin.AdminFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/user_fragment" />
+        tools:layout="@layout/admin_fragment" />
 </navigation>
