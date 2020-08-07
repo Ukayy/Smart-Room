@@ -18,8 +18,15 @@
         tools:layout="@layout/power_fragment" />
 
     <fragment
-        android:id="@+id/navigation_account"
-        android:name="skripsi.uki.smartroom.ui.account.admin.AdminFragment"
+        android:id="@+id/navigation_user"
+        android:name="skripsi.uki.smartroom.ui.account.user.UserFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/admin_fragment" />
+        tools:layout="@layout/user_fragment" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_admin"-->
+<!--        android:name="skripsi.uki.smartroom.ui.account.admin.AdminFragment"-->
+<!--        android:label="@string/title_account"-->
+<!--        tools:layout="@layout/admin_fragment" />-->
+
 </navigation>
