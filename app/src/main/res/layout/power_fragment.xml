@@ -267,11 +267,13 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
+                        android:id="@+id/btn_ac"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_power"
                         android:layout_gravity="center"
-                        android:background="#00000000"
+                        android:background="?attr/selectableItemBackground"
+
                         android:contentDescription="@string/ac" />
 
             </androidx.cardview.widget.CardView>
@@ -491,12 +493,13 @@
                 app:layout_constraintVertical_bias="0.45">
 
                 <ImageButton
+                    android:id="@+id/btn_door"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_key"
                     android:scaleX="-1"
-                    android:background="#00000000"
+                    android:background="?attr/selectableItemBackground"
                     android:contentDescription="@string/door" />
 
             </androidx.cardview.widget.CardView>

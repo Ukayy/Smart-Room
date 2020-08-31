@@ -1,10 +1,13 @@
-package skripsi.uki.smartroom
+package skripsi.uki.smartroom.ui.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import kotlinx.android.synthetic.main.activity_login.*
+import skripsi.uki.smartroom.MainActivity
+import skripsi.uki.smartroom.R
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -16,6 +19,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         btnLoginActivity.setOnClickListener(this)
 
         this.supportActionBar!!.hide()
+
+        tv_change_code.setOnClickListener {
+            val moveIntent = Intent(this, DeviceCodeActivity::class.java)
+            startActivity(moveIntent)
+        }
 
 
     }

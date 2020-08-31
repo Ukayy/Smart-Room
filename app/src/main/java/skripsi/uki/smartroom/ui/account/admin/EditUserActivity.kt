@@ -1,4 +1,4 @@
-package skripsi.uki.smartroom.ui.account
+package skripsi.uki.smartroom.ui.account.admin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
