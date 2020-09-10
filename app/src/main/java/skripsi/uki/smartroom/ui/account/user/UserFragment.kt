@@ -10,7 +10,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import skripsi.uki.smartroom.ui.login.LoginActivity
 import skripsi.uki.smartroom.R
-import skripsi.uki.smartroom.ui.account.ChangePassword
+import skripsi.uki.smartroom.ui.account.ChangePasswordActivity
 
 class UserFragment : Fragment(), View.OnClickListener {
 
@@ -47,7 +47,7 @@ class UserFragment : Fragment(), View.OnClickListener {
                 startActivity(intentLogout)
             }
             R.id.btn_c_password ->{
-                val intentChangePassword = Intent(activity,ChangePassword::class.java)
+                val intentChangePassword = Intent(activity,ChangePasswordActivity::class.java)
                 startActivity(intentChangePassword)
             }
         }

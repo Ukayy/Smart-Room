@@ -3,24 +3,42 @@ package skripsi.uki.smartroom.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_device_code.*
 import skripsi.uki.smartroom.R
 
-class DeviceCodeActivity : AppCompatActivity(), View.OnClickListener {
+class DeviceCodeActivity : AppCompatActivity() {
+
+    var database:FirebaseDatabase = FirebaseDatabase.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device_code)
         this.supportActionBar!!.hide()
-        btn_submit_code.setOnClickListener(this)
+
+        btn_submit_code.setOnClickListener{
+            getDeviceCode()
+        }
     }
 
-    override fun onClick(p0: View) {
-        when(p0.id){
-            R.id.btn_submit_code ->{
-                val intent: Intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+
+    fun getDeviceCode() {
+        var input = device_code.text.toString().trim()
+        val ref = database.getReference(input)
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val mintent = Intent(this@DeviceCodeActivity, LoginActivity::class.java)
+                    startActivity(mintent)
+                } else {
+                    Toast.makeText(this@DeviceCodeActivity, "Salah Cuy", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 }

@@ -8,15 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.admin_fragment.*
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.model.User
 
 class AdminFragment : Fragment(), View.OnClickListener {
 
-    companion object {
-        fun newInstance() =
-            AdminFragment()
-    }
+    var node = "12345/user"
 
+    private val list = ArrayList<User>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,18 +38,20 @@ class AdminFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btn_edit:Button = view.findViewById(R.id.btn_edit)
-        btn_edit.setOnClickListener(this)
+        rv_user.setHasFixedSize(true)
+        btn_add_user.setOnClickListener(this)
+
 
     }
 
     override fun onClick(p0: View) {
         when(p0.id){
-            R.id.btn_edit ->{
-                val intentEdit = Intent(activity, EditUserActivity::class.java)
-                startActivity(intentEdit)
+            R.id.btn_add_user ->{
+                val mintent = Intent(activity,AddUserActivity::class.java)
+                startActivity(mintent)
             }
         }
     }
+
 
 }

@@ -10,6 +10,10 @@ import androidx.navigation.ui.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        var EXTRA_USERNAME = "name"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,8 +23,16 @@ class MainActivity : AppCompatActivity() {
         
 
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_chart, R.id.navigation_power, R.id.navigation_user))
+                R.id.navigation_chart, R.id.navigation_power, R.id.navigation_user,R.id.navigation_admin))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val sesion = intent.getStringExtra(EXTRA_USERNAME)
+
+        if (sesion=="admin"){
+            navView.getMenu().removeItem(R.id.navigation_user)
+        }else{
+            navView.getMenu().removeItem(R.id.navigation_admin)
+        }
     }
 }

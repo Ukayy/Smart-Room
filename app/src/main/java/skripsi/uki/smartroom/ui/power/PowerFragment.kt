@@ -21,7 +21,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var viewModel: PowerViewModel
-    private lateinit var database:FirebaseDatabase;
+    private lateinit var database:FirebaseDatabase
 
     private var doorStatus:Boolean = false
     private var acStatus:Boolean = false
@@ -70,6 +70,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getSuhu(){
+
         val ref:DatabaseReference = database.getReference("12345/sensor/suhu/kondisi")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {

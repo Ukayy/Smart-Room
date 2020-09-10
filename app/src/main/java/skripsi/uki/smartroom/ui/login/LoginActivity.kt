@@ -7,9 +7,12 @@ import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_login.*
 import skripsi.uki.smartroom.MainActivity
+import skripsi.uki.smartroom.MainActivity.Companion.EXTRA_USERNAME
 import skripsi.uki.smartroom.R
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +32,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View) {
+        var username = edt_username.text.toString()
         when(p0.id){
             R.id.btn_login ->{
                 val moveIntent = Intent(this, MainActivity::class.java)
+                moveIntent.putExtra(EXTRA_USERNAME,username)
                 startActivity(moveIntent)
             }
         }
