@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.database.FirebaseDatabase
 import skripsi.uki.smartroom.R
-import skripsi.uki.smartroom.data.model.User
+import skripsi.uki.smartroom.data.model.Users
 
 class AddUserActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -59,7 +59,7 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         val ref = FirebaseDatabase.getInstance().getReference("12345/user")
-        val user = User(id_card,name,password,email)
+        val user = Users(id_card,name,password,email)
 
         ref.child(name).setValue(user).addOnCompleteListener{
             Toast.makeText(applicationContext,"Success",Toast.LENGTH_SHORT).show()

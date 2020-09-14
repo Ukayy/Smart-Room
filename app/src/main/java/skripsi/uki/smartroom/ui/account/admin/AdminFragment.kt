@@ -6,21 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.admin_fragment.*
+import kotlinx.android.synthetic.main.item_user.view.*
 import skripsi.uki.smartroom.R
-import skripsi.uki.smartroom.data.model.User
+import skripsi.uki.smartroom.data.UsersViewHolder
+import skripsi.uki.smartroom.data.model.Users
 
 class AdminFragment : Fragment(), View.OnClickListener {
 
     var node = "12345/user"
-
-    private val list = ArrayList<User>()
+    var mDatabase =FirebaseDatabase.getInstance().getReference(node)
+    private val list:MutableList<Users> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,11 +38,31 @@ class AdminFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rv_user.setHasFixedSize(true)
         btn_add_user.setOnClickListener(this)
-
+        rv_user.setHasFixedSize(true)
+        rv_user.layoutManager = LinearLayoutManager(activity)
+        getListUsers()
 
     }
+
+    private fun getListUsers() {
+        val FirebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Users, UsersViewHolder>(
+            Users::class.java,
+            R.layout.item_user,
+            UsersViewHolder::class.java,
+            mDatabase
+        ){
+            override fun populateViewHolder(viewHolder: UsersViewHolder, model: Users, position: Int) {
+
+                viewHolder.itemView.tv_name.text = model.name
+                viewHolder.itemView.tv_idcard.text = model.id_card
+
+            }
+
+        }
+        rv_user.adapter = FirebaseRecyclerAdapter
+    }
+
 
     override fun onClick(p0: View) {
         when(p0.id){
@@ -52,6 +72,4 @@ class AdminFragment : Fragment(), View.OnClickListener {
             }
         }
     }
-
-
 }

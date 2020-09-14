@@ -1,9 +1,12 @@
 package skripsi.uki.smartroom.ui.power
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +15,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.power_fragment.*
+import skripsi.uki.smartroom.MainActivity
 import skripsi.uki.smartroom.R
 
 class PowerFragment : Fragment(), View.OnClickListener {
@@ -47,23 +51,50 @@ class PowerFragment : Fragment(), View.OnClickListener {
         database = Firebase.database
         getSuhu()
         getKelembapan()
-
+        getLamp()
         btn_ac.setOnClickListener(this)
         btn_door.setOnClickListener(this)
-
-        getLamp()
     }
 
-    override fun onClick(p0: View?) {
-        when (p0?.id){
+    override fun onClick(p0: View) {
+        when (p0.id){
             btn_ac.id->{
-                database.getReference("12345/alat/ac/power").setValue(if (!acStatus){"on"} else {"off"})
+
+                val ref = database.getReference("12345/alat/ac/power")
+                ref.addValueEventListener(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        status_ac.text = snapshot.value.toString().toUpperCase()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+                })
+                ref.setValue(if (!acStatus){"on"} else {"off"})
                 acStatus = !acStatus
                 status_ac.text = if (acStatus){"ON"} else{ "OFF"}
             }
-            btn_door.id->{
-//                database.getReference("12345/pintu/kondisi").setValue(if (!doorStatus){"on"} else {"off"})
-//                doorStatus = !doorStatus
+            btn_door.id -> {
+
+                val mAlertDialog = activity?.let { AlertDialog.Builder(it) }
+                mAlertDialog?.setTitle("Confirmation")
+                mAlertDialog?.setMessage("Are you sure to open the door?")
+                mAlertDialog?.setIcon(R.drawable.ic_baseline_announcement_24)
+
+                mAlertDialog?.setPositiveButton("Yes") { dialog, id ->
+                    database.getReference("12345/pintu/kondisi").setValue("on")
+                    Toast.makeText(context, "Door Opened", Toast.LENGTH_SHORT).show()
+                    Handler().postDelayed({
+                            database.getReference("12345/pintu/kondisi").setValue("off")
+                        Toast.makeText(context, "Door Closed", Toast.LENGTH_SHORT).show()
+                    },8000)
+                }
+
+                mAlertDialog?.setNegativeButton("No") { dialog, id ->
+                    dialog.dismiss()
+
+                }
+                mAlertDialog?.show()
 
             }
         }
