@@ -2,6 +2,7 @@ package skripsi.uki.smartroom.ui.account.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.admin_fragment.*
 import kotlinx.android.synthetic.main.item_user.view.*
 import skripsi.uki.smartroom.R
@@ -46,21 +50,17 @@ class AdminFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getListUsers() {
-        val FirebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Users, UsersViewHolder>(
-            Users::class.java,
-            R.layout.item_user,
-            UsersViewHolder::class.java,
-            mDatabase
-        ){
-            override fun populateViewHolder(viewHolder: UsersViewHolder, model: Users, position: Int) {
-
-                viewHolder.itemView.tv_name.text = model.name
-                viewHolder.itemView.tv_idcard.text = model.id_card
-
+        mDatabase.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d("Kosong", dataSnapshot.children.toString())
             }
 
-        }
-        rv_user.adapter = FirebaseRecyclerAdapter
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("Kosong", "loadPost:onCancelled", databaseError.toException())
+                // ...
+            }
+        })
     }
 
 
