@@ -12,6 +12,7 @@ class UserAdapter (private val listUser: ArrayList<Users>) :RecyclerView.Adapter
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(users: Users) {
             with(itemView){
+                number.text = "1"
                 tv_name.text = users.name
                 tv_idcard.text= users.id_card
             }

@@ -52,6 +52,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
         getSuhu()
         getKelembapan()
         getLamp()
+        getAc()
         btn_ac.setOnClickListener(this)
         btn_door.setOnClickListener(this)
     }
@@ -59,17 +60,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
     override fun onClick(p0: View) {
         when (p0.id){
             btn_ac.id->{
-
                 val ref = database.getReference("12345/alat/ac/power")
-                ref.addValueEventListener(object :ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        status_ac.text = snapshot.value.toString().toUpperCase()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-
-                    }
-                })
                 ref.setValue(if (!acStatus){"on"} else {"off"})
                 acStatus = !acStatus
                 status_ac.text = if (acStatus){"ON"} else{ "OFF"}
@@ -98,6 +89,19 @@ class PowerFragment : Fragment(), View.OnClickListener {
 
             }
         }
+    }
+
+    private fun getAc(){
+        val ref = database.getReference("12345/alat/ac/power")
+        ref.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                status_ac.text = snapshot.value.toString().toUpperCase()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
 
     private fun getSuhu(){

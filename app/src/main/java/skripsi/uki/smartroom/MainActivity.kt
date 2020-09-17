@@ -28,11 +28,11 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         val sesion = intent.getStringExtra(EXTRA_USERNAME)
-
-        if (sesion=="admin"){
+//
+//        if (sesion=="admin"){
             navView.getMenu().removeItem(R.id.navigation_user)
-        }else{
-            navView.getMenu().removeItem(R.id.navigation_admin)
-        }
+//        }else{
+//            navView.getMenu().removeItem(R.id.navigation_admin)
+//        }
     }
 }

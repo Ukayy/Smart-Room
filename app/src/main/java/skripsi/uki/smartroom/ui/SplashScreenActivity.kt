@@ -7,6 +7,7 @@ import android.os.Handler
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_splash_screen.*
+import skripsi.uki.smartroom.MainActivity
 import skripsi.uki.smartroom.R
 import skripsi.uki.smartroom.ui.login.DeviceCodeActivity
 
@@ -19,8 +20,8 @@ class SplashScreenActivity : AppCompatActivity() {
         pgb_splash.isVisible
         Handler().postDelayed({
             pgb_splash.isGone
-            startActivity(Intent(this@SplashScreenActivity, DeviceCodeActivity::class.java))
+            startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
             finish()
-        },2000)
+        },2)
     }
 }

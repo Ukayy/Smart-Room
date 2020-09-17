@@ -18,13 +18,14 @@ import kotlinx.android.synthetic.main.admin_fragment.*
 import kotlinx.android.synthetic.main.item_user.view.*
 import skripsi.uki.smartroom.R
 import skripsi.uki.smartroom.data.UsersViewHolder
+import skripsi.uki.smartroom.data.model.UserAdapter
 import skripsi.uki.smartroom.data.model.Users
 
 class AdminFragment : Fragment(), View.OnClickListener {
 
     var node = "12345/user"
-    var mDatabase =FirebaseDatabase.getInstance().getReference(node)
-    private val list:MutableList<Users> = mutableListOf()
+    var mDatabase = FirebaseDatabase.getInstance().getReference(node)
+    private val list: MutableList<Users> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +36,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
     }
 
@@ -44,7 +45,6 @@ class AdminFragment : Fragment(), View.OnClickListener {
 
         btn_add_user.setOnClickListener(this)
         rv_user.setHasFixedSize(true)
-        rv_user.layoutManager = LinearLayoutManager(activity)
         getListUsers()
 
     }
@@ -52,7 +52,19 @@ class AdminFragment : Fragment(), View.OnClickListener {
     private fun getListUsers() {
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d("Kosong", dataSnapshot.children.toString())
+                val data = dataSnapshot.children.map { item ->
+                    Users(
+                        "${item.child("id_card").value}",
+                        "${item.child("name").value}",
+                        "${item.child("password").value}",
+                        "${item.child("email").value}"
+                    )
+                }
+                list.addAll(data)
+                rv_user.layoutManager = LinearLayoutManager(activity)
+                val UserAdapter = UserAdapter(list as ArrayList<Users>)
+                rv_user.adapter = UserAdapter
+                Log.d("lol", data.toString())
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -61,13 +73,14 @@ class AdminFragment : Fragment(), View.OnClickListener {
                 // ...
             }
         })
+
     }
 
 
     override fun onClick(p0: View) {
-        when(p0.id){
-            R.id.btn_add_user ->{
-                val mintent = Intent(activity,AddUserActivity::class.java)
+        when (p0.id) {
+            R.id.btn_add_user -> {
+                val mintent = Intent(activity, AddUserActivity::class.java)
                 startActivity(mintent)
             }
         }
