@@ -7,9 +7,12 @@ import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_device_code.*
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.SharedPreference
+import skripsi.uki.smartroom.data.model.Session
 
 class DeviceCodeActivity : AppCompatActivity() {
 
+    private lateinit var model:Session
     var database:FirebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,4 +44,11 @@ class DeviceCodeActivity : AppCompatActivity() {
             }
         })
     }
+
+    private fun saveCode(deviceCode: String) {
+        val preference = SharedPreference(this)
+        model.device_key = deviceCode
+        preference.setSession(model)
+    }
+
 }

@@ -24,6 +24,7 @@
 
     <EditText
         android:id="@+id/edt_name"
+        android:enabled="false"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"

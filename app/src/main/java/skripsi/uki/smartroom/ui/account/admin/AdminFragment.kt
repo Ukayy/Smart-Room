@@ -9,23 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.admin_fragment.*
-import kotlinx.android.synthetic.main.item_user.view.*
 import skripsi.uki.smartroom.R
-import skripsi.uki.smartroom.data.UsersViewHolder
+import skripsi.uki.smartroom.data.model.User
 import skripsi.uki.smartroom.data.model.UserAdapter
-import skripsi.uki.smartroom.data.model.Users
 
 class AdminFragment : Fragment(), View.OnClickListener {
-
-    var node = "12345/user"
-    var mDatabase = FirebaseDatabase.getInstance().getReference(node)
-    private val list: MutableList<Users> = mutableListOf()
+    val userAdapter = UserAdapter()
+    private var node = "12345/user"
+    private var mDatabase = FirebaseDatabase.getInstance().getReference(node)
+    private val list: MutableList<User> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,26 +31,31 @@ class AdminFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.admin_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         btn_add_user.setOnClickListener(this)
-        rv_user.setHasFixedSize(true)
-        getListUsers()
+    }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        getListUsers()
+        with(rv_user){
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(activity)
+            adapter = userAdapter
+        }
     }
 
     private fun getListUsers() {
+        var angka = 0
+        angka++
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children.map { item ->
-                    Users(
+                    User(
+                        angka++.toString(),
                         "${item.child("id_card").value}",
                         "${item.child("name").value}",
                         "${item.child("password").value}",
@@ -61,9 +63,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
                     )
                 }
                 list.addAll(data)
-                rv_user.layoutManager = LinearLayoutManager(activity)
-                val UserAdapter = UserAdapter(list as ArrayList<Users>)
-                rv_user.adapter = UserAdapter
+                userAdapter.setData(data)
                 Log.d("lol", data.toString())
             }
 

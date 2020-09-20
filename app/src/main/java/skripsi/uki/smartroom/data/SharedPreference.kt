@@ -3,7 +3,7 @@ package skripsi.uki.smartroom.data
 import android.content.Context
 import skripsi.uki.smartroom.data.model.Session
 
-internal class SharedPreference (context: Context){
+class SharedPreference (context: Context) {
     companion object{
         private const val PREFS_NAME ="smart_room_pref"
         private const val DEVICE_KEY = "device_key"

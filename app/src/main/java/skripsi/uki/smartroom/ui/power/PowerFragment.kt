@@ -24,7 +24,6 @@ class PowerFragment : Fragment(), View.OnClickListener {
         fun newInstance() = PowerFragment()
     }
 
-    private lateinit var viewModel: PowerViewModel
     private lateinit var database:FirebaseDatabase
 
     private var doorStatus:Boolean = false
@@ -40,7 +39,6 @@ class PowerFragment : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(PowerViewModel::class.java)
         // TODO: Use the ViewModel
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
     }

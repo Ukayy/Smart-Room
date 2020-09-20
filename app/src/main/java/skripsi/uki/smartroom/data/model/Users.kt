@@ -10,3 +10,12 @@ data class Users(
     var password:String?="",
     var email:String?=""
 ):Parcelable
+
+@Parcelize
+data class User(
+    var angka: String,
+    var id_card:String?="",
+    var name:String?="",
+    var password:String?="",
+    var email:String?=""
+):Parcelable
