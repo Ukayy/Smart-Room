@@ -8,7 +8,7 @@
     tools:context=".ui.account.admin.EditUserActivity">
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/tv_edit_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -22,20 +22,61 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_edit_user" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/number_id_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_card" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
     <EditText
         android:id="@+id/edt_name"
-        android:enabled="false"
         android:layout_width="350dp"
         android:layout_height="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/form"
-        android:paddingLeft="15dp"
+        android:elevation="2dp"
+        android:enabled="false"
         android:hint="@string/name"
         android:inputType="text"
+        android:paddingLeft="15dp"
         android:singleLine="true"
-        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
         app:layout_constraintVertical_bias="0.0" />
@@ -44,64 +85,67 @@
         android:id="@+id/edt_card"
         android:layout_width="350dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/form"
-        android:paddingLeft="15dp"
         android:elevation="2dp"
         android:hint="@string/number_id_card"
         android:inputType="text"
+        android:paddingLeft="15dp"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="350dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/form"
-        android:paddingLeft="15dp"
         android:elevation="2dp"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:paddingLeft="15dp"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_card"
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="350dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/form"
-        android:paddingLeft="15dp"
         android:elevation="2dp"
         android:hint="@string/password"
         android:inputType="textVisiblePassword"
+        android:paddingLeft="15dp"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_email"
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btn_add_user"
+        android:id="@+id/btn_edit_user"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/btn_yellow"
-        android:textColor="#FFFFFF"
         android:text="@string/submit"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_password"
         app:layout_constraintVertical_bias="0.0" />

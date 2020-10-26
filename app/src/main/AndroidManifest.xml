@@ -12,23 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.login.LoginActivity" />
-        <activity
-            android:name=".ui.account.ChangePasswordActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".ui.login.DeviceCodeActivity" />
+        <activity android:name=".ui.account.ChangePasswordActivity"/>
+        <activity android:name=".ui.login.DeviceCodeActivity"/>
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".ui.account.admin.EditUserActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".ui.account.admin.AddUserActivity"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ui.account.admin.EditUserActivity"/>
+        <activity android:name=".ui.account.admin.AddUserActivity"/>
         <activity
             android:name=".ui.SplashScreenActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

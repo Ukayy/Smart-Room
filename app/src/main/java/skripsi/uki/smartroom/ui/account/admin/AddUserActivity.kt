@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.database.FirebaseDatabase
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.UserPreference
 import skripsi.uki.smartroom.data.model.Users
 
 class AddUserActivity : AppCompatActivity(), View.OnClickListener {
@@ -16,10 +17,12 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var addCard:EditText
     private lateinit var addEmail:EditText
     private lateinit var addPassword:EditText
+    private lateinit var preference: UserPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_user)
+        preference = UserPreference(this)
 
         addName = findViewById(R.id.add_name)
         addCard = findViewById(R.id.add_card)
@@ -35,6 +38,7 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun addUser(){
 
+        val deviceCode = preference.getDeviceCode().toString()
         val name = addName.text.toString().trim()
         val id_card = addCard.text.toString().trim()
         val email = addEmail.text.toString().trim()
@@ -58,13 +62,12 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
             return
         }
 
-        val ref = FirebaseDatabase.getInstance().getReference("12345/user")
+        val ref = FirebaseDatabase.getInstance().getReference(deviceCode+"/user")
         val user = Users(id_card,name,password,email)
 
         ref.child(name).setValue(user).addOnCompleteListener{
             Toast.makeText(applicationContext,"Success",Toast.LENGTH_SHORT).show()
+            onBackPressed()
         }
-
-
     }
 }

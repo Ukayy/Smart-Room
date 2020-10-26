@@ -7,12 +7,14 @@ import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_device_code.*
 import skripsi.uki.smartroom.R
-import skripsi.uki.smartroom.data.SharedPreference
-import skripsi.uki.smartroom.data.model.Session
+import skripsi.uki.smartroom.data.UserPreference
 
 class DeviceCodeActivity : AppCompatActivity() {
 
-    private lateinit var model:Session
+    companion object{
+        private const val FIELD_REQUIRED = "Field tidak boleh kosong"
+    }
+    private lateinit var preference: UserPreference
     var database:FirebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +23,11 @@ class DeviceCodeActivity : AppCompatActivity() {
         this.supportActionBar!!.hide()
 
         btn_submit_code.setOnClickListener{
+            val key = device_code.text.toString().trim()
+            if (key.isEmpty()){
+                device_code.error = FIELD_REQUIRED
+                return@setOnClickListener
+            }
             getDeviceCode()
         }
     }
@@ -29,9 +36,11 @@ class DeviceCodeActivity : AppCompatActivity() {
     fun getDeviceCode() {
         var input = device_code.text.toString().trim()
         val ref = database.getReference(input)
+        preference = UserPreference(this)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    preference.setDeviceCode(input)
                     val mintent = Intent(this@DeviceCodeActivity, LoginActivity::class.java)
                     startActivity(mintent)
                 } else {
@@ -43,12 +52,6 @@ class DeviceCodeActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
-    }
-
-    private fun saveCode(deviceCode: String) {
-        val preference = SharedPreference(this)
-        model.device_key = deviceCode
-        preference.setSession(model)
     }
 
 }

@@ -2,6 +2,7 @@ package skripsi.uki.smartroom.ui.power
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,22 +10,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.power_fragment.*
-import skripsi.uki.smartroom.MainActivity
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.UserPreference
 
 class PowerFragment : Fragment(), View.OnClickListener {
 
-    companion object {
-        fun newInstance() = PowerFragment()
-    }
-
     private lateinit var database:FirebaseDatabase
+    private lateinit var preference:UserPreference
 
     private var doorStatus:Boolean = false
     private var acStatus:Boolean = false
@@ -41,11 +38,8 @@ class PowerFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        preference = UserPreference(requireActivity())
         database = Firebase.database
         getSuhu()
         getKelembapan()
@@ -55,10 +49,27 @@ class PowerFragment : Fragment(), View.OnClickListener {
         btn_door.setOnClickListener(this)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        preference = UserPreference(requireActivity())
+        database = Firebase.database
+        getSuhu()
+        getKelembapan()
+        getLamp()
+        getAc()
+        btn_ac.setOnClickListener(this)
+        btn_door.setOnClickListener(this)
+
+    }
+
+
     override fun onClick(p0: View) {
+        val deviceCode = preference.getDeviceCode().toString()
+
         when (p0.id){
             btn_ac.id->{
-                val ref = database.getReference("12345/alat/ac/power")
+                val ref = database.getReference(deviceCode+"/alat/ac/power")
                 ref.setValue(if (!acStatus){"on"} else {"off"})
                 acStatus = !acStatus
                 status_ac.text = if (acStatus){"ON"} else{ "OFF"}
@@ -71,10 +82,10 @@ class PowerFragment : Fragment(), View.OnClickListener {
                 mAlertDialog?.setIcon(R.drawable.ic_baseline_announcement_24)
 
                 mAlertDialog?.setPositiveButton("Yes") { dialog, id ->
-                    database.getReference("12345/pintu/kondisi").setValue("on")
+                    database.getReference(deviceCode+"/pintu/kondisi").setValue("on")
                     Toast.makeText(context, "Door Opened", Toast.LENGTH_SHORT).show()
                     Handler().postDelayed({
-                            database.getReference("12345/pintu/kondisi").setValue("off")
+                            database.getReference(deviceCode+"/pintu/kondisi").setValue("off")
                         Toast.makeText(context, "Door Closed", Toast.LENGTH_SHORT).show()
                     },8000)
                 }
@@ -90,8 +101,9 @@ class PowerFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getAc(){
-        val ref = database.getReference("12345/alat/ac/power")
-        ref.addValueEventListener(object :ValueEventListener{
+        val deviceCode = preference.getDeviceCode().toString()
+        val ref = database.getReference(deviceCode+"/alat/ac/power")
+        ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 status_ac.text = snapshot.value.toString().toUpperCase()
             }
@@ -103,8 +115,8 @@ class PowerFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getSuhu(){
-
-        val ref:DatabaseReference = database.getReference("12345/sensor/suhu/kondisi")
+        val deviceCode = preference.getDeviceCode().toString()
+        val ref:DatabaseReference = database.getReference(deviceCode+"/sensor/suhu/kondisi")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newVal = snapshot.getValue<Double>()
@@ -115,7 +127,8 @@ class PowerFragment : Fragment(), View.OnClickListener {
         })
     }
     private fun getKelembapan(){
-        val ref:DatabaseReference = database.getReference("12345/sensor/kelembapan/kondisi")
+        val deviceCode = preference.getDeviceCode().toString()
+        val ref:DatabaseReference = database.getReference(deviceCode+"/sensor/kelembapan/kondisi")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newVal = snapshot.getValue<Double>()
@@ -128,26 +141,28 @@ class PowerFragment : Fragment(), View.OnClickListener {
 
 
     private fun getLamp(){
+        val deviceCode = preference.getDeviceCode().toString()
 
         switch_1.setOnCheckedChangeListener{_, isChecked->
-            database.getReference("12345/alat/relay").child("0").setValue(if (isChecked){ "on"}else{"off"})
+            database.getReference(deviceCode+"/alat/relay").child("0").setValue(if (isChecked){ "on"}else{"off"})
         }
         switch_2.setOnCheckedChangeListener{_, isChecked->
-            database.getReference("12345/alat/relay").child("1").setValue(if (isChecked){ "on"}else{"off"})
+            database.getReference(deviceCode+"/alat/relay").child("1").setValue(if (isChecked){ "on"}else{"off"})
         }
         switch_3.setOnCheckedChangeListener{_, isChecked->
-            database.getReference("12345/alat/relay").child("2").setValue(if (isChecked){ "on"}else{"off"})
+            database.getReference(deviceCode+"/alat/relay").child("2").setValue(if (isChecked){ "on"}else{"off"})
         }
         switch_4.setOnCheckedChangeListener{_, isChecked->
-            database.getReference("12345/alat/relay").child("3").setValue(if (isChecked){ "on"}else{"off"})
+            database.getReference(deviceCode+"/alat/relay").child("3").setValue(if (isChecked){ "on"}else{"off"})
         }
 
-        database.getReference("12345/alat/relay").addValueEventListener(object :ValueEventListener{
+        database.getReference(deviceCode+"/alat/relay").addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 switch_1.isChecked = snapshot.child("0").getValue<String>() == "on"
                 switch_2.isChecked = snapshot.child("1").getValue<String>() == "on"
                 switch_3.isChecked = snapshot.child("2").getValue<String>() == "on"
                 switch_4.isChecked = snapshot.child("3").getValue<String>() == "on"
+
             }
 
             override fun onCancelled(error: DatabaseError) {

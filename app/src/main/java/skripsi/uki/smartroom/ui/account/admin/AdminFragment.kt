@@ -15,14 +15,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.admin_fragment.*
 import skripsi.uki.smartroom.R
-import skripsi.uki.smartroom.data.model.User
-import skripsi.uki.smartroom.data.model.UserAdapter
+import skripsi.uki.smartroom.data.UserPreference
+import skripsi.uki.smartroom.data.adapter.UserAdapter
+import skripsi.uki.smartroom.data.model.Users
 
 class AdminFragment : Fragment(), View.OnClickListener {
     val userAdapter = UserAdapter()
-    private var node = "12345/user"
-    private var mDatabase = FirebaseDatabase.getInstance().getReference(node)
-    private val list: MutableList<User> = mutableListOf()
+    private lateinit var preference:UserPreference
+    private val list: MutableList<Users> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +40,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        preference = UserPreference(requireActivity())
         getListUsers()
         with(rv_user){
             setHasFixedSize(true)
@@ -49,13 +50,13 @@ class AdminFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getListUsers() {
-        var angka = 0
-        angka++
+        val deviceCode = preference.getDeviceCode().toString()
+        val mDatabase = FirebaseDatabase.getInstance().getReference(deviceCode+"/user")
+
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children.map { item ->
-                    User(
-                        angka++.toString(),
+                    Users(
                         "${item.child("id_card").value}",
                         "${item.child("name").value}",
                         "${item.child("password").value}",

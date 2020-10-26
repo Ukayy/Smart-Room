@@ -1,29 +1,24 @@
-package skripsi.uki.smartroom.data.model
+package skripsi.uki.smartroom.data.adapter
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.item_user.view.*
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.model.Users
 import skripsi.uki.smartroom.ui.account.admin.EditUserActivity
-import skripsi.uki.smartroom.ui.account.user.UserFragment
+
 
 class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
 
-    private var listUser = ArrayList<User>()
+    private var listUser = ArrayList<Users>()
 
-    fun setData(newListData: List<User>?) {
+    fun setData(newListData: List<Users>?) {
         if (newListData == null) return
         listUser.clear()
         listUser.addAll(newListData)
@@ -33,20 +28,23 @@ class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var database = FirebaseDatabase.getInstance().getReference("12345/user")
 
-        fun bind(users: User) {
+        fun bind(users: Users) {
 
             with(itemView){
-                number.text = users.angka
                 tv_name.text = users.name
                 tv_idcard.text= users.id_card
                 val name = users.name
+                val idCard = users.id_card
+                val email = users.email
+                val password = users.password
+                var user = Users(idCard,name,password,email)
 
                 btn_edit.setOnClickListener {
                     val mIntent = Intent(context, EditUserActivity::class.java)
-                    mIntent.putExtra(EditUserActivity.EXTRA_NAME, "$name")
+                    mIntent.putExtra(EditUserActivity.EXTRA_USER, user)
                     context.startActivity(mIntent)
 
-                    Toast.makeText(context, "ini edit", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Edit $name", Toast.LENGTH_SHORT).show()
                 }
                 btn_delete.setOnClickListener {
 
@@ -54,7 +52,7 @@ class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
                     val mAlertDialog = context.let { AlertDialog.Builder(it) }
                     mAlertDialog.setTitle("Confirmation")
                     mAlertDialog.setMessage("Are you sure to delete $name?")
-                    mAlertDialog.setIcon(R.drawable.ic_baseline_announcement_24)
+                    mAlertDialog.setIcon(R.drawable.ic_baseline_announcement_red)
 
                     mAlertDialog?.setPositiveButton("Yes") { dialog, id ->
                         database.child("$name").removeValue()
