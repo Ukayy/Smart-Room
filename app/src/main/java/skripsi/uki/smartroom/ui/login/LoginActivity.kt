@@ -30,13 +30,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         this.supportActionBar!!.hide()
         preference = UserPreference(this)
         sheenValidator = SheenValidator(this)
-        sheenValidator.setOnValidatorListener {
-            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-        }
+
         sheenValidator.registerAsRequired(edt_username)
         sheenValidator.registerAsRequired(edt_password)
-        val btnLoginActivity: Button = findViewById(R.id.btn_login)
-        btnLoginActivity.setOnClickListener(this)
+
+        btn_login.setOnClickListener(this)
         tv_change_code.setOnClickListener (this)
 
     }
