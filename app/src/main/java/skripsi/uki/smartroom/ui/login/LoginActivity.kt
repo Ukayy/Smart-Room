@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 preference.clear()
                 val moveIntent = Intent(this, DeviceCodeActivity::class.java)
                 startActivity(moveIntent)
-
+                finish()
             }
         }
     }

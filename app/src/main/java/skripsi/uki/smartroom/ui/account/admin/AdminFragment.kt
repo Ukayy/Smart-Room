@@ -20,7 +20,7 @@ import skripsi.uki.smartroom.data.adapter.UserAdapter
 import skripsi.uki.smartroom.data.model.Users
 
 class AdminFragment : Fragment(), View.OnClickListener {
-    val userAdapter = UserAdapter()
+    private lateinit var userAdapter : UserAdapter
     private lateinit var preference:UserPreference
     private val list: MutableList<Users> = mutableListOf()
 
@@ -41,6 +41,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         preference = UserPreference(requireActivity())
+        userAdapter = UserAdapter(requireActivity())
         getListUsers()
         with(rv_user){
             setHasFixedSize(true)
@@ -55,7 +56,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
 
         mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children.map { item ->
+                val data = dataSnapshot.children.filter { item->item.child("name").value!="admin" }.map { item ->
                     Users(
                         "${item.child("id_card").value}",
                         "${item.child("name").value}",
@@ -63,6 +64,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
                         "${item.child("email").value}"
                     )
                 }
+
                 list.addAll(data)
                 userAdapter.setData(data)
                 Log.d("lol", data.toString())

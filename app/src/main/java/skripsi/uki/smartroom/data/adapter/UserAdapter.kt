@@ -1,5 +1,6 @@
 package skripsi.uki.smartroom.data.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.item_user.view.*
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.UserPreference
 import skripsi.uki.smartroom.data.model.Users
 import skripsi.uki.smartroom.ui.account.admin.EditUserActivity
 
-
-class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
+class UserAdapter(activity: Activity) :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
 
     private var listUser = ArrayList<Users>()
+    var preference : UserPreference = UserPreference(activity)
 
     fun setData(newListData: List<Users>?) {
         if (newListData == null) return
@@ -26,7 +28,10 @@ class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var database = FirebaseDatabase.getInstance().getReference("12345/user")
+        var preference : UserPreference = UserPreference(itemView.context)
+        private var deviceCode = preference.getDeviceCode().toString()
+
+        private var database = FirebaseDatabase.getInstance().getReference(deviceCode+"/user")
 
         fun bind(users: Users) {
 
@@ -37,7 +42,7 @@ class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
                 val idCard = users.id_card
                 val email = users.email
                 val password = users.password
-                var user = Users(idCard,name,password,email)
+                val user = Users(idCard,name,password,email)
 
                 btn_edit.setOnClickListener {
                     val mIntent = Intent(context, EditUserActivity::class.java)
@@ -54,16 +59,16 @@ class UserAdapter :RecyclerView.Adapter<UserAdapter.ListViewHolder>(){
                     mAlertDialog.setMessage("Are you sure to delete $name?")
                     mAlertDialog.setIcon(R.drawable.ic_baseline_announcement_red)
 
-                    mAlertDialog?.setPositiveButton("Yes") { dialog, id ->
+                    mAlertDialog.setPositiveButton("Yes") { dialog, id ->
                         database.child("$name").removeValue()
                         Toast.makeText(context, "$name deleted", Toast.LENGTH_SHORT).show()
 
                     }
 
-                    mAlertDialog?.setNegativeButton("No") { dialog, id ->
+                    mAlertDialog.setNegativeButton("No") { dialog, id ->
                         dialog.dismiss()
                     }
-                    mAlertDialog?.show()
+                    mAlertDialog.show()
                 }
             }
         }
