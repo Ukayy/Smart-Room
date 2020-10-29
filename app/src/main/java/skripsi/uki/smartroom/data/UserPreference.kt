@@ -7,7 +7,6 @@ class UserPreference (context: Context) {
         private const val PREFS_NAME ="smart_room_pref"
         private const val DEVICE_KEY = "device_key"
         private const val USERNAME = "username"
-        private const val PASSWORD = "password"
 
     }
 
@@ -35,20 +34,15 @@ class UserPreference (context: Context) {
         return username
     }
 
-    fun setPassword(password: String){
-        val editor = preference.edit()
-        editor.putString(PASSWORD, password)
-        editor.apply()
-    }
-
-    fun getPassword(): String? {
-        val password = preference.getString(PASSWORD,"")
-        return password
-    }
-
     fun clear(){
         val editor = preference.edit()
         editor.clear()
-        editor.commit()
+        editor.apply()
+    }
+
+    fun clearUsername(){
+        val editor = preference.edit()
+        editor.remove(USERNAME)
+        editor.apply()
     }
 }

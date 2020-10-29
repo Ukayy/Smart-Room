@@ -10,10 +10,12 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import skripsi.uki.smartroom.ui.login.LoginActivity
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.UserPreference
 import skripsi.uki.smartroom.ui.account.ChangePasswordActivity
 
 class UserFragment : Fragment(), View.OnClickListener {
 
+    private lateinit var preference: UserPreference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +28,13 @@ class UserFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        preference = UserPreference(requireActivity())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preference = UserPreference(requireActivity())
         val btn_logout: Button = view.findViewById(R.id.btn_logout)
         btn_logout.setOnClickListener(this)
 
@@ -42,9 +46,10 @@ class UserFragment : Fragment(), View.OnClickListener {
     override fun onClick(p0: View) {
         when(p0.id){
             R.id.btn_logout ->{
-                val intentLogout = Intent(activity,
-                    LoginActivity::class.java)
-                startActivity(intentLogout)
+                val intentLogout = Intent(activity,LoginActivity::class.java)
+                    startActivity(intentLogout)
+                    requireActivity().finish()
+                preference.clearUsername()
             }
             R.id.btn_c_password ->{
                 val intentChangePassword = Intent(activity,ChangePasswordActivity::class.java)

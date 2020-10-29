@@ -1,6 +1,8 @@
 package skripsi.uki.smartroom
 
 import android.os.Bundle
+import android.os.Handler
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -12,6 +14,7 @@ import skripsi.uki.smartroom.data.UserPreference
 class MainActivity : AppCompatActivity() {
 
     private lateinit var preference: UserPreference
+    var doubleBack:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,5 +36,17 @@ class MainActivity : AppCompatActivity() {
         }else{
             navView.getMenu().removeItem(R.id.navigation_admin)
         }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBack ==true){
+            super.onBackPressed()
+            return;
+        }
+        doubleBack = true
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
+        Handler().postDelayed( {
+            doubleBack = false
+        },2000)
     }
 }

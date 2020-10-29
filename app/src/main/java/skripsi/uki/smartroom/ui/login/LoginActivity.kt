@@ -1,12 +1,12 @@
 package skripsi.uki.smartroom.ui.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var preference: UserPreference
     private lateinit var sheenValidator: SheenValidator
+    var doubleBack:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         sheenValidator.registerAsRequired(edt_password)
 
         btn_login.setOnClickListener(this)
-        tv_change_code.setOnClickListener (this)
+        tv_change_code.setOnClickListener(this)
 
     }
 
@@ -43,12 +44,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 
         when(p0.id){
-            R.id.btn_login ->{
+            R.id.btn_login -> {
                 sheenValidator.validate()
                 validation()
             }
 
-            R.id.tv_change_code ->{
+            R.id.tv_change_code -> {
                 preference.clear()
                 val moveIntent = Intent(this, DeviceCodeActivity::class.java)
                 startActivity(moveIntent)
@@ -62,7 +63,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val password = edt_password.text.toString().trim()
         val deviceCode = preference.getDeviceCode().toString()
 
-        val ref = FirebaseDatabase.getInstance().getReference(deviceCode+"/user/"+username)
+        val ref = FirebaseDatabase.getInstance().getReference(deviceCode + "/user/" + username)
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
@@ -75,6 +76,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         preference.setUsername(username)
                         val moveIntent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(moveIntent)
+                        finish()
                     } else {
                         Log.e("salah", "Password salah")
                         Toast.makeText(
@@ -85,7 +87,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 } else {
                     Log.e("uname", "Username tidak adaa")
-                    Toast.makeText(this@LoginActivity, "Username and Password Incorrect", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Username and Password Incorrect",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -97,4 +103,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    override fun onBackPressed() {
+        if (doubleBack ==true){
+            super.onBackPressed()
+            return;
+        }
+        doubleBack = true
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
+        Handler().postDelayed( {
+            doubleBack = false
+        },2000)
+    }
 }

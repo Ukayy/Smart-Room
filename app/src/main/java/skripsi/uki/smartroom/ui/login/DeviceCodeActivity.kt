@@ -3,6 +3,7 @@ package skripsi.uki.smartroom.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_device_code.*
@@ -16,6 +17,7 @@ class DeviceCodeActivity : AppCompatActivity() {
     }
     private lateinit var preference: UserPreference
     var database:FirebaseDatabase = FirebaseDatabase.getInstance()
+    var doubleBack:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class DeviceCodeActivity : AppCompatActivity() {
                     preference.setDeviceCode(input)
                     val mintent = Intent(this@DeviceCodeActivity, LoginActivity::class.java)
                     startActivity(mintent)
+                    finish()
                 } else {
                     Toast.makeText(this@DeviceCodeActivity, "Salah Cuy", Toast.LENGTH_SHORT).show()
                 }
@@ -54,4 +57,15 @@ class DeviceCodeActivity : AppCompatActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        if (doubleBack ==true){
+            super.onBackPressed()
+            return;
+        }
+        doubleBack = true
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
+        Handler().postDelayed( {
+            doubleBack = false
+        },2000)
+    }
 }
