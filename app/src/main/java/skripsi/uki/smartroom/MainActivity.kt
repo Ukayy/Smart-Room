@@ -1,7 +1,10 @@
 package skripsi.uki.smartroom
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +13,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import skripsi.uki.smartroom.data.UserPreference
+import skripsi.uki.smartroom.ui.account.ChangePasswordActivity
+import skripsi.uki.smartroom.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +41,24 @@ class MainActivity : AppCompatActivity() {
         }else{
             navView.getMenu().removeItem(R.id.navigation_admin)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.admin_menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId==R.id.change_password){
+            val intent = Intent(this,ChangePasswordActivity::class.java)
+            startActivity(intent)
+        }else if(item.itemId==R.id.logout){
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+            preference.clearUsername()
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {

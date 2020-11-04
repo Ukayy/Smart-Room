@@ -39,7 +39,7 @@ class AdminFragment : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         preference = UserPreference(requireActivity())
         userAdapter = UserAdapter(requireActivity())
         getListUsers()

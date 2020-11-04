@@ -7,15 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.github.mikephil.charting.charts.LineChart
 import skripsi.uki.smartroom.R
 
 class ChartFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ChartFragment()
-    }
-
-    private lateinit var viewModel: ChartViewModel
+    lateinit var lineChart:LineChart
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +23,6 @@ class ChartFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ChartViewModel::class.java)
         // TODO: Use the ViewModel
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
     }
