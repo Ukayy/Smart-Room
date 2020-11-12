@@ -26,7 +26,7 @@
             android:layout_height="100dp">
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -39,19 +39,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/clock"
+            <TextClock
+                android:id="@+id/tv_clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="10dp"
-                android:text="@string/dumy_clock"
+                android:format12Hour="hh:mm:ss a"
+                android:textColor="#8F8F8F"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+
 
             <ImageView
                 android:id="@+id/img_temp"
@@ -63,7 +65,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintHorizontal_bias="0.119"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date"
                 app:layout_constraintVertical_bias="0.238"
                 android:contentDescription="@string/temperature" />
 
@@ -78,7 +80,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/img_temp"
-                app:layout_constraintTop_toBottomOf="@+id/date"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -147,7 +149,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/clock"
+                app:layout_constraintTop_toBottomOf="@+id/tv_clock"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView

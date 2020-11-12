@@ -17,6 +17,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.power_fragment.*
 import skripsi.uki.smartroom.R
 import skripsi.uki.smartroom.data.UserPreference
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PowerFragment : Fragment(), View.OnClickListener {
 
@@ -60,11 +62,11 @@ class PowerFragment : Fragment(), View.OnClickListener {
         getAc()
         btn_ac.setOnClickListener(this)
         btn_door.setOnClickListener(this)
+        getTime()
 
     }
 
-
-    override fun onClick(p0: View) {
+        override fun onClick(p0: View) {
         val deviceCode = preference.getDeviceCode().toString()
 
         when (p0.id){
@@ -158,10 +160,10 @@ class PowerFragment : Fragment(), View.OnClickListener {
 
         database.getReference(deviceCode+"/alat/relay").addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                switch_1.isChecked = snapshot.child("0").getValue<String>() == "on"
-                switch_2.isChecked = snapshot.child("1").getValue<String>() == "on"
-                switch_3.isChecked = snapshot.child("2").getValue<String>() == "on"
-                switch_4.isChecked = snapshot.child("3").getValue<String>() == "on"
+                switch_1?.isChecked = snapshot.child("0").getValue<String>() == "on"
+                switch_2?.isChecked = snapshot.child("1").getValue<String>() == "on"
+                switch_3?.isChecked = snapshot.child("2").getValue<String>() == "on"
+                switch_4?.isChecked = snapshot.child("3").getValue<String>() == "on"
 
             }
 
@@ -169,6 +171,21 @@ class PowerFragment : Fragment(), View.OnClickListener {
                 TODO("Not yet implemented")
             }
         })
+    }
+
+
+    fun getTime(){
+
+        val calender = Calendar.getInstance()
+        val simpleDate = SimpleDateFormat("E, dd-MM-yyyy")
+        val simpleTime = SimpleDateFormat("hh:mm a")
+
+        val date = simpleDate.format(calender.time)
+        val time = simpleTime.format(calender.time)
+
+        tv_date.text = date.toString()
+        tv_clock.text = time.toString()
+
     }
 
 
