@@ -40,7 +40,7 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
 
         val deviceCode = preference.getDeviceCode().toString()
         val name = addName.text.toString().trim()
-        val id_card = addCard.text.toString().trim()
+        val id_card = addCard.text.toString().trim().toUpperCase()
         val email = addEmail.text.toString().trim()
         val password = addPassword.text.toString().trim()
 
@@ -69,5 +69,8 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
             Toast.makeText(applicationContext,"Success",Toast.LENGTH_SHORT).show()
             onBackPressed()
         }
+
+        val ref2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/rfid")
+        ref2.child(id_card).setValue(Users(id_card,name,null,null))
     }
 }

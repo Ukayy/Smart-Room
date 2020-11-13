@@ -32,12 +32,13 @@ class UserAdapter(activity: Activity) :RecyclerView.Adapter<UserAdapter.ListView
         private var deviceCode = preference.getDeviceCode().toString()
 
         private var database = FirebaseDatabase.getInstance().getReference(deviceCode+"/user")
+        private var database2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/rfid")
 
         fun bind(users: Users) {
 
             with(itemView){
                 tv_name.text = users.name
-                tv_idcard.text= users.id_card
+                tv_email.text= users.email
                 val name = users.name
                 val idCard = users.id_card
                 val email = users.email
@@ -61,6 +62,7 @@ class UserAdapter(activity: Activity) :RecyclerView.Adapter<UserAdapter.ListView
 
                     mAlertDialog.setPositiveButton("Yes") { dialog, id ->
                         database.child("$name").removeValue()
+                        database2.child("$idCard").removeValue()
                         Toast.makeText(context, "$name deleted", Toast.LENGTH_SHORT).show()
 
                     }

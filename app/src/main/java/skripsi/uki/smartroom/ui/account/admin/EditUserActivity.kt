@@ -29,10 +29,11 @@ class EditUserActivity : AppCompatActivity() {
 
         val user = intent.getParcelableExtra<Users>(EXTRA_USER)
         val name = user?.name
-        val idCard = user?.id_card.toString()
+        val idCard = user?.id_card.toString().toUpperCase()
         val email = user?.email.toString()
         val password = user?.password.toString()
         val database = FirebaseDatabase.getInstance().getReference(deviceCode+"/user/$name")
+        val database2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/rfid")
 
         edt_name.setText(name)
         edt_card.setText(idCard)
@@ -43,12 +44,15 @@ class EditUserActivity : AppCompatActivity() {
 
         btn_edit_user.setOnClickListener {
             val newEmail = edt_email.text.toString().trim()
-            val newIdCard = edt_card.text.toString().trim()
+            val newIdCard = edt_card.text.toString().trim().toUpperCase()
             val newPassword = edt_password.text.toString().trim()
 
             database.child("email").setValue(newEmail)
             database.child("id_card").setValue(newIdCard)
             database.child("password").setValue(newPassword)
+
+            database2.child(idCard).removeValue()
+            database2.child(newIdCard).setValue(Users(newIdCard,name,null,null))
 
             Toast.makeText(this, "Edit Success", Toast.LENGTH_SHORT).show()
             onBackPressed()

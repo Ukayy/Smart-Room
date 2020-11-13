@@ -50,6 +50,7 @@ class ChartFragment : Fragment() {
         yValues.add(Entry(10F, 50F))
         yValues.add(Entry(11F, 30F))
         yValues.add(Entry(12F, 50F))
+        s
 
         xValues.add(Entry(1F, 30F))
         xValues.add(Entry(2F, 40F))
