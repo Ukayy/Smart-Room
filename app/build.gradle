@@ -70,4 +70,10 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:2.3.0'
     implementation 'com.github.rizmaulana:SheenValidator:0.2.3'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // fiebase cloud message
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
 }
