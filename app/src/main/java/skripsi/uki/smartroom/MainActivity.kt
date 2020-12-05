@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.messaging.FirebaseMessaging
 import skripsi.uki.smartroom.data.UserPreference
 import skripsi.uki.smartroom.ui.account.ChangePasswordActivity
 import skripsi.uki.smartroom.ui.login.LoginActivity
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         }else{
             navView.getMenu().removeItem(R.id.navigation_admin)
         }
+
+        FirebaseMessaging.getInstance().subscribeToTopic(preference.getDeviceCode().toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
