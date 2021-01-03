@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }else{
             navView.getMenu().removeItem(R.id.navigation_admin)
         }
-
+        //subscribe
         FirebaseMessaging.getInstance().subscribeToTopic(preference.getDeviceCode().toString())
     }
 

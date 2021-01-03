@@ -9,13 +9,20 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import skripsi.uki.smartroom.MainActivity
 import skripsi.uki.smartroom.R
+import skripsi.uki.smartroom.data.UserPreference
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
+    private lateinit var preference: UserPreference
+    var i = 0
     companion object{
         private  val TAG = MyFirebaseMessagingService::class.java.simpleName
     }
@@ -27,9 +34,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        remoteMessage?.notification?.let {
-            sendNotification(it.body)
-        }
+
+        val data = remoteMessage.data["id_tag"]
+        preference = UserPreference(this)
+        val deviceCode = preference.getDeviceCode()
+
+        val ref = FirebaseDatabase.getInstance().getReference(deviceCode + "/rfid/"+data)
+        ref.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val name = snapshot.child("name").value.toString().trim()
+                    sendNotification("$name open The Door!")
+                }else{
+                    sendNotification("Unknown user with id: $data tries to open The Door!")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun sendNotification(messageBody: String?) {
@@ -43,7 +68,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.mipmap.ic_launcher_logo)
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
@@ -61,7 +86,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         val notification = notificationBuilder.build()
-
-        mNotificationManager.notify(0, notification)
+        i++
+        mNotificationManager.notify(i,notification)
     }
 }

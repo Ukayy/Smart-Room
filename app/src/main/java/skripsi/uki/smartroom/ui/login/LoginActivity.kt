@@ -48,6 +48,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_login -> {
                 sheenValidator.validate()
                 validation()
+                
             }
 
             R.id.tv_change_code -> {
