@@ -33,7 +33,7 @@ class EditUserActivity : AppCompatActivity() {
         val email = user?.email.toString()
         val password = user?.password.toString()
         val database = FirebaseDatabase.getInstance().getReference(deviceCode+"/user/$name")
-        val database2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/rfid")
+        val database2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/pintu/rfid")
 
         edt_name.setText(name)
         edt_card.setText(idCard)

@@ -118,7 +118,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
 
     private fun getSuhu(){
         val deviceCode = preference.getDeviceCode().toString()
-        val ref:DatabaseReference = database.getReference(deviceCode+"/sensor/suhu/kondisi")
+        val ref:DatabaseReference = database.getReference(deviceCode+"/alat/sensor/suhu")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newVal = snapshot.getValue<Double>()
@@ -130,7 +130,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
     }
     private fun getKelembapan(){
         val deviceCode = preference.getDeviceCode().toString()
-        val ref:DatabaseReference = database.getReference(deviceCode+"/sensor/kelembapan/kondisi")
+        val ref:DatabaseReference = database.getReference(deviceCode+"/alat/sensor/kelembapan")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newVal = snapshot.getValue<Double>()

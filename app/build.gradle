@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.github.rizmaulana:SheenValidator:0.2.3'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    // fiebase cloud message
+    // fiebase cloud messag
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'

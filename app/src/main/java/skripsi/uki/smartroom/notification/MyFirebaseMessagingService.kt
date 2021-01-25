@@ -39,7 +39,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         preference = UserPreference(this)
         val deviceCode = preference.getDeviceCode()
 
-        val ref = FirebaseDatabase.getInstance().getReference(deviceCode + "/rfid/"+data)
+        val ref = FirebaseDatabase.getInstance().getReference(deviceCode + "/pintu/rfid/"+data)
         ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){

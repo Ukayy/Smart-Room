@@ -70,7 +70,7 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
             onBackPressed()
         }
 
-        val ref2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/rfid")
+        val ref2 = FirebaseDatabase.getInstance().getReference(deviceCode+"/pintu/rfid")
         ref2.child(id_card).setValue(Users(id_card,name,null,null))
     }
 }
