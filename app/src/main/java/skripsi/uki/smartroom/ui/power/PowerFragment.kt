@@ -25,7 +25,6 @@ class PowerFragment : Fragment(), View.OnClickListener {
     private lateinit var database:FirebaseDatabase
     private lateinit var preference:UserPreference
 
-    private var doorStatus:Boolean = false
     private var acStatus:Boolean = false
 
     override fun onCreateView(

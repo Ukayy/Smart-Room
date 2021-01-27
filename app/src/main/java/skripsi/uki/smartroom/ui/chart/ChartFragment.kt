@@ -32,8 +32,6 @@ class ChartFragment : Fragment() {
 
     val yValues: ArrayList<Entry> = ArrayList()
     val xValues: ArrayList<Entry> = ArrayList()
-    val xtemp:ArrayList<Float> = ArrayList()
-    val xdate:ArrayList<Float> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,40 +45,12 @@ class ChartFragment : Fragment() {
         // TODO: Use the ViewModel
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         preference = UserPreference(requireActivity())
-        lineChart = requireView().findViewById(R.id.chart)
-        lineChart.isDragEnabled
-        lineChart.setScaleEnabled(false)
 
-        getTemp()
-
-        //ini untuk temperature
-        yValues.add(Entry(12F, 12F))
-
-        //ini untuk kelmbapan
-        xValues.add(Entry(12F, 12F))
-
-        val set1 : LineDataSet = LineDataSet(yValues, "Temperature")
-        set1.fillAlpha = 100
-
-        val set2 : LineDataSet = LineDataSet(xValues, "Humidity")
-        set1.fillAlpha = 100
-        set2.color = Color.RED
-
-        val dataSets : ArrayList<ILineDataSet> = ArrayList()
-        dataSets.add(set1)
-        dataSets.add(set2)
-
-        val data: LineData = LineData(dataSets)
-        lineChart.setData(data)
-
-    }
-
-
-    private fun getTemp() {
         val deviceCode = preference.getDeviceCode().toString()
         val mDatabase = FirebaseDatabase.getInstance().getReference(deviceCode+"/history/suhu")
         val time = getDateTime(currentTimeMillis().toString())
         Log.d("Tanggal saiki :", time.toString() )
+        
         mDatabase.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 //filter {item-> item.child("date").value.toString().toLong() >=123}.
@@ -88,8 +58,36 @@ class ChartFragment : Fragment() {
                     val date = item.child("timestamp").value.toString().toFloat()
                     val temp = item.child("suhu").value.toString().toFloat()
                     Sensor(date, temp)
-                }
 
+                    lineChart = requireView().findViewById(R.id.chart)
+                    lineChart.isDragEnabled
+                    lineChart.setScaleEnabled(false)
+
+                    //ini untuk temperature
+                    yValues.add(Entry(date, temp))
+
+                    //ini untuk kelmbapan
+//                    xValues.add(Entry(12F, 12F))
+
+
+                    val set1 : LineDataSet = LineDataSet(yValues, "Temperature")
+                    set1.fillAlpha = 100
+
+//                    val set2 : LineDataSet = LineDataSet(xValues, "Humidity")
+                    set1.fillAlpha = 100
+//                    set2.color = Color.RED
+
+                    val dataSets : ArrayList<ILineDataSet> = ArrayList()
+                    dataSets.add(set1)
+//                    dataSets.add(set2)
+
+                    val data: LineData = LineData(dataSets)
+                    lineChart.setData(data)
+
+
+
+
+                }
                 Log.d("Coba yaaa  " , data.toString())
             }
             override fun onCancelled(error: DatabaseError) {
@@ -97,7 +95,9 @@ class ChartFragment : Fragment() {
             }
 
         })
+
     }
+
 
     private fun getDateTime(s: String): String? {
         try {
