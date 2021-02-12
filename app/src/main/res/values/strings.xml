@@ -71,4 +71,7 @@
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="default_notification_channel_name">Smart Room</string>
+    <string name="tv_fan">FAN</string>
+    <string name="fan">FAN</string>
+    <string name="t_fan">Fan</string>
 </resources>

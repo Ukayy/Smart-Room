@@ -25,7 +25,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
     private lateinit var database:FirebaseDatabase
     private lateinit var preference:UserPreference
 
-    private var acStatus:Boolean = false
+    private var fanStatus:Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +42,12 @@ class PowerFragment : Fragment(), View.OnClickListener {
 
         preference = UserPreference(requireActivity())
         database = Firebase.database
-        getSuhu()
-        getKelembapan()
-        getLamp()
-        getAc()
-        btn_ac.setOnClickListener(this)
-        btn_door.setOnClickListener(this)
+//        getSuhu()
+//        getKelembapan()
+//        getLamp()
+//        getFan()
+//        btn_fan.setOnClickListener(this)
+//        btn_door.setOnClickListener(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,8 +58,8 @@ class PowerFragment : Fragment(), View.OnClickListener {
         getSuhu()
         getKelembapan()
         getLamp()
-        getAc()
-        btn_ac.setOnClickListener(this)
+        getFan()
+        btn_fan.setOnClickListener(this)
         btn_door.setOnClickListener(this)
         getTime()
 
@@ -69,11 +69,11 @@ class PowerFragment : Fragment(), View.OnClickListener {
         val deviceCode = preference.getDeviceCode().toString()
 
         when (p0.id){
-            btn_ac.id->{
-                val ref = database.getReference(deviceCode+"/alat/ac/power")
-                ref.setValue(if (!acStatus){"on"} else {"off"})
-                acStatus = !acStatus
-                status_ac.text = if (acStatus){"ON"} else{ "OFF"}
+            btn_fan.id->{
+                val ref = database.getReference(deviceCode+"/alat/fan")
+                ref.setValue(if (!fanStatus){"on"} else {"off"})
+                fanStatus = !fanStatus
+                status_fan.text = if (fanStatus){"ON"} else{ "OFF"}
             }
             btn_door.id -> {
 
@@ -101,12 +101,12 @@ class PowerFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun getAc(){
+    private fun getFan(){
         val deviceCode = preference.getDeviceCode().toString()
-        val ref = database.getReference(deviceCode+"/alat/ac/power")
+        val ref = database.getReference(deviceCode+"/alat/fan")
         ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                status_ac.text = snapshot.value.toString().toUpperCase()
+                status_fan.text = snapshot.value.toString().toUpperCase()
             }
 
             override fun onCancelled(error: DatabaseError) {
