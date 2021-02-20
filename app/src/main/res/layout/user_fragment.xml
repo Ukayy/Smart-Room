@@ -22,8 +22,10 @@
 
     <Button
         android:id="@+id/btn_c_password"
-        android:layout_width="140dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="15dp"
         android:background="@drawable/btn_yellow"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -38,8 +40,9 @@
 
     <Button
         android:id="@+id/btn_logout"
-        android:layout_width="140dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="40dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/btn_red"
         android:text="@string/logout"

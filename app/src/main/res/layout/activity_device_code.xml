@@ -10,7 +10,8 @@
     <TextView
         android:id="@+id/textView11"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
         android:gravity="center"
         android:text="@string/input_your_code"
         android:textStyle="bold"
@@ -23,9 +24,11 @@
 
     <EditText
         android:id="@+id/device_code"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="320dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="15dp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/form"
         android:drawablePadding="10dp"
         android:textAlignment="center"
@@ -33,19 +36,17 @@
         android:hint="@string/device_code"
         android:textSize="14sp"
         android:inputType="text"
-        android:paddingLeft="15dp"
         android:singleLine="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11"/>
 
     <Button
         android:id="@+id/btn_submit_code"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="15dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="244dp"
         android:background="@drawable/btn_blue"

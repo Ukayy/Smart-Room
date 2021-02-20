@@ -67,8 +67,6 @@
     <string name="device_code">Device Code</string>
     <string name="input_your_code">Input Your Code :</string>
     <string name="change_device_code">Change Device Code</string>
-
-
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="default_notification_channel_name">Smart Room</string>
     <string name="tv_fan">FAN</string>
