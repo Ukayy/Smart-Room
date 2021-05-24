@@ -34,7 +34,7 @@
         android:textAlignment="center"
         android:elevation="6dp"
         android:hint="@string/device_code"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:inputType="text"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"

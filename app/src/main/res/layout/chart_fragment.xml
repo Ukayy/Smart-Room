@@ -30,7 +30,7 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:padding="4dp"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold"
             android:text="@string/title_chart"
             app:layout_constraintBottom_toTopOf="@+id/chart"

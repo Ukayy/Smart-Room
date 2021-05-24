@@ -40,29 +40,19 @@ class PowerFragment : Fragment(), View.OnClickListener {
         // TODO: Use the ViewModel
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        preference = UserPreference(requireActivity())
-        database = Firebase.database
-//        getSuhu()
-//        getKelembapan()
-//        getLamp()
-//        getFan()
-//        btn_fan.setOnClickListener(this)
-//        btn_door.setOnClickListener(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         preference = UserPreference(requireActivity())
         database = Firebase.database
-        getSuhu()
-        getKelembapan()
         getLamp()
         getFan()
         btn_fan.setOnClickListener(this)
         btn_door.setOnClickListener(this)
         getTime()
-
+        getSuhu()
+        getKelembapan()
     }
 
         override fun onClick(p0: View) {
@@ -104,9 +94,9 @@ class PowerFragment : Fragment(), View.OnClickListener {
     private fun getFan(){
         val deviceCode = preference.getDeviceCode().toString()
         val ref = database.getReference(deviceCode+"/alat/fan")
-        ref.addListenerForSingleValueEvent(object :ValueEventListener{
+        ref.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                status_fan.text = snapshot.value.toString().toUpperCase()
+                status_fan?.text = snapshot.value.toString().toUpperCase()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -121,7 +111,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newVal = snapshot.getValue<Double>()
-                power_temp.text = newVal?.toInt().toString()
+                power_temp?.text = newVal?.toInt().toString()
             }
             override fun onCancelled(error: DatabaseError) {
             }
@@ -133,7 +123,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val newVal = snapshot.getValue<Double>()
-                power_hum.text = newVal?.toInt().toString()
+                power_hum?.text = newVal?.toInt().toString()
             }
             override fun onCancelled(error: DatabaseError) {
             }
@@ -157,7 +147,7 @@ class PowerFragment : Fragment(), View.OnClickListener {
             database.getReference(deviceCode+"/alat/relay").child("3").setValue(if (isChecked){ "on"}else{"off"})
         }
 
-        database.getReference(deviceCode+"/alat/relay").addListenerForSingleValueEvent(object :ValueEventListener{
+        database.getReference(deviceCode+"/alat/relay").addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 switch_1?.isChecked = snapshot.child("0").getValue<String>() == "on"
                 switch_2?.isChecked = snapshot.child("1").getValue<String>() == "on"

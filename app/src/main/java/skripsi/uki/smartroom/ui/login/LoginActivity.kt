@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_login -> {
                 sheenValidator.validate()
                 validation()
-                
             }
 
             R.id.tv_change_code -> {
@@ -78,7 +77,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         preference.setUsername(username)
                         val moveIntent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(moveIntent)
-                        finish()
                     } else {
                         Log.e("salah", "Password salah")
                         Toast.makeText(

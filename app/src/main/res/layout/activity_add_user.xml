@@ -14,7 +14,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginBottom="174dp"
         android:text="Add User"
-        android:textSize="27sp"
+        android:textSize="27dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
